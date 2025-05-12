@@ -46,6 +46,19 @@ export default async function handler(request: NextApiRequest, response: NextApi
       }
     });
 
+    // Ensure results array exists
+    if (!result.data || !Array.isArray(result.data.results)) {
+      return response.status(200).json({
+        type: 'Success',
+        data: {
+          results: [],
+          total_pages: 0,
+          total_results: 0,
+          page: 1
+        }
+      });
+    }
+
     // Filter results based on type if specified
     let filteredResults = result.data.results;
     if (type !== 'multi') {

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { Media } from '../types';
 import { debounce } from 'lodash';
 import Image from 'next/image';
-import Link from 'next/link';
 
 interface SearchResult {
   results: Media[];
@@ -60,44 +59,29 @@ export default function Search({ initialQuery }: SearchProps) {
     []
   );
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    search(value);
-  };
-
   const handleResultClick = () => {
     setQuery('');
     setResults(null);
   };
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
-      <div className="relative">
-        <input
-          type="text"
-          value={query}
-          onChange={handleSearch}
-          placeholder="Search for movies and TV shows..."
-          className="w-full px-4 py-2 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
-        {loading && (
-          <div className="absolute right-3 top-2.5">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-          </div>
-        )}
-      </div>
+    <div className="w-full">
+      {loading && (
+        <div className="flex justify-center py-4">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+        </div>
+      )}
 
       {error && (
-        <div className="mt-2 text-red-500 text-sm">{error}</div>
+        <div className="p-4 text-red-500 text-sm">{error}</div>
       )}
 
       {results && results.results.length > 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto">
+        <div className="w-full max-h-96 overflow-y-auto">
           {results.results.map((item) => (
             <div 
               key={item.id} 
-              className="hover:bg-gray-50 transition-colors cursor-pointer"
+              className="hover:bg-gray-800 transition-colors cursor-pointer"
               onClick={() => {
                 handleResultClick();
                 router.push(`/${item.media_type}/${item.id}`);
@@ -114,16 +98,16 @@ export default function Search({ initialQuery }: SearchProps) {
                   />
                 </div>
                 <div className="ml-4">
-                  <h3 className="font-medium text-gray-900">
+                  <h3 className="font-medium text-white">
                     {item.title || item.name}
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-400">
                     {item.media_type === 'movie' ? 'Movie' : 'TV Show'} •{' '}
                     {item.release_date?.split('-')[0] || item.first_air_date?.split('-')[0]}
                   </p>
                   {(item.vote_average || item.rating) > 0 && (
-                    <p className="text-sm text-gray-500">
-                      Rating: {(item.vote_average || item.rating).toFixed(1)}/10
+                    <p className="text-sm text-gray-400">
+                      Rating: {Math.round(item.rating)}%
                     </p>
                   )}
                 </div>
@@ -134,8 +118,8 @@ export default function Search({ initialQuery }: SearchProps) {
       )}
 
       {results && results.results.length === 0 && (
-        <div className="absolute z-50 w-full mt-2 p-4 bg-white rounded-lg shadow-lg border border-gray-200">
-          <p className="text-gray-500 text-center">No results found</p>
+        <div className="p-4">
+          <p className="text-gray-400 text-center">No results found</p>
         </div>
       )}
     </div>
