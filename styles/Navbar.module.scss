@@ -133,32 +133,55 @@
     }
 
     .searchPanel {
+      position: relative;
       display: flex;
-      flex-direction: row;
       align-items: center;
-      cursor: pointer;
+      margin-right: 1rem;
     }
+
     .searchBar {
-      background-color: $secondary;
-      border: $white-hover solid 1.2px;
+      position: relative;
       display: flex;
-      flex-direction: row;
       align-items: center;
-      font-size: 0.9rem;
+      background-color: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 4px;
+      padding: 0.5rem;
+      overflow: hidden;
+    }
 
-      &__input {
-        padding: 0.4rem;
-        outline: none;
-        border-radius: 0;
-        background-color: transparent;
-        color: $white;
-        border: none;
+    .searchBar__input {
+      background: transparent;
+      border: none;
+      color: white;
+      margin-left: 0.5rem;
+      width: 100%;
+      outline: none;
+      font-size: 0.875rem;
 
-        @include for-mobile-only {
-          width: 90%;
-          overflow: hidden;
-          padding: 0.3rem;
-        }
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .searchResults {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 0.5rem;
+      z-index: 50;
+      min-width: 300px;
+      max-width: 500px;
+      background-color: rgba(0, 0, 0, 0.9);
+      border-radius: 4px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      max-height: 80vh;
+      overflow-y: auto;
+
+      @include for-mobile-only {
+        min-width: 200px;
+        max-width: 300px;
       }
     }
 

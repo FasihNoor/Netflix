@@ -47,7 +47,7 @@ export default function Cards({ defaultCard = true, item }: CardsProps): React.R
         <div className={styles.textDetails}>
           <strong>{title}</strong>
           <div className={styles.row}>
-            <span className={styles.greenText}>{`${rating * 10}% match`}</span>
+            <span className={styles.greenText}>{`${Math.round(rating)}% match`}</span>
             {/* <span className={styles.regularText}>length </span> */}
           </div>
           {renderGenre(genre)}

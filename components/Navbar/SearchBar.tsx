@@ -1,12 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useRef, ChangeEvent } from 'react';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 
 import useExternalClick from '../../hooks/useExternalClick';
 import { Search } from '../../utils/icons';
 import useDimensions from '../../hooks/useDimensions';
 import styles from '../../styles/Navbar.module.scss';
 import { Maybe } from '../../types';
+
+const SearchResults = dynamic(() => import('../Search'), { ssr: false });
 
 export default function SearchBar(): React.ReactElement {
   const searchRef = useRef<Maybe<HTMLDivElement>>(null);
@@ -20,6 +23,7 @@ export default function SearchBar(): React.ReactElement {
   
   useExternalClick(searchRef, () => {
     setIsSearch(false);
+    setSearchInput('');
   });
 
   const onSearchQuery = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +57,12 @@ export default function SearchBar(): React.ReactElement {
         />
       </motion.div>
       {!isSearch && <Search className={styles.icon} onMouseOver={onSearchActive} />}
+      
+      {isSearch && searchInput && (
+        <div className={styles.searchResults}>
+          <SearchResults initialQuery={searchInput} />
+        </div>
+      )}
     </div>
   );
 }

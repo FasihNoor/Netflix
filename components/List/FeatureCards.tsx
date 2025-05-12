@@ -16,6 +16,7 @@ interface FeatureCardProps {
 
 export default function FeatureCard({ index, item }: FeatureCardProps): React.ReactElement {
   const { title, poster, banner, rating, genre } = item;
+  console.log(rating);
   const [image, setImage] = useState<string>(poster);
 
   const { setModalData, setIsModal } = useContext(ModalContext);
@@ -53,7 +54,7 @@ export default function FeatureCard({ index, item }: FeatureCardProps): React.Re
           <div className={styles.textDetails}>
             <strong>{title}</strong>
             <div className={styles.row}>
-              <span className={styles.greenText}>{rating * 10}% Match</span>
+              <span className={styles.greenText}>{Math.round(rating)}% Match</span>
               {/* <span className={styles.regularText}>length </span> */}
             </div>
             {renderGenre(genre)}

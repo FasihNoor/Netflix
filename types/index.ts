@@ -28,11 +28,17 @@ export enum MediaType {
 export type Media = {
   id: number;
   title: string;
+  name?: string;
   overview: string;
   poster: string;
+  poster_path?: string;
   banner: string;
   rating: number;
+  vote_average?: number;
   genre: Genre[];
+  media_type: MediaType;
+  release_date?: string;
+  first_air_date?: string;
 };
 
 export type ImageType = 'poster' | 'original';

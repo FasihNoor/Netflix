@@ -24,7 +24,7 @@ export default function Modal() {
               <Button Icon={Like} rounded />
               <Button Icon={Dislike} rounded />
             </div>
-            <div className={styles.greenText}>{rating * 10}% Match</div>
+            <div className={styles.greenText}>{Math.round(rating)}% Match</div>
           </div>
         </div>
 

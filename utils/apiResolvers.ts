@@ -8,11 +8,12 @@ export function parse(array: any[], type: MediaType): Media[] {
     const resolved: Media = {
       id: element.id,
       title: element.name || element.title,
-      rating: element.vote_average,
+      rating: element.vote_average * 10,
       overview: element.overview,
       poster: getImageUrl(element.poster_path, 'poster'),
       banner: getImageUrl(element.backdrop_path, 'original'),
-      genre: getGenre(element.genre_ids, type)
+      genre: getGenre(element.genre_ids, type),
+      media_type: element.media_type || type
     };
 
     parsedResponse.push(resolved);
