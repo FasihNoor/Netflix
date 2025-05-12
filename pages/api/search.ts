@@ -42,11 +42,19 @@ export default async function handler(request: NextApiRequest, response: NextApi
         query: query,
         page: page,
         language: 'en-US',
-        include_adult: false
+        include_adult: false,
+        append_to_response: 'external_ids'
       }
     });
 
-    // Ensure results array exists
+    if (result.data.results && result.data.results.length > 0) {
+      console.log('First result:', {
+        title: result.data.results[0].title || result.data.results[0].name,
+        imdb_id: result.data.results[0].external_ids?.imdb_id,
+        raw: result.data.results[0]
+      });
+    }
+
     if (!result.data || !Array.isArray(result.data.results)) {
       return response.status(200).json({
         type: 'Success',
@@ -59,7 +67,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
       });
     }
 
-    // Filter results based on type if specified
     let filteredResults = result.data.results;
     if (type !== 'multi') {
       filteredResults = result.data.results.filter(
@@ -67,8 +74,29 @@ export default async function handler(request: NextApiRequest, response: NextApi
       );
     }
 
-    // Parse the results using the existing parser
-    const data = parse(filteredResults, type as MediaType);
+    const resultsWithExternalIds = await Promise.all(
+      filteredResults.map(async (item: any) => {
+        if (!item.external_ids?.imdb_id) {
+          try {
+            const externalIds = await axios.get(`/${item.media_type}/${item.id}/external_ids`, {
+              params: {
+                api_key: apiKey
+              }
+            });
+            return {
+              ...item,
+              external_ids: externalIds.data
+            };
+          } catch (error) {
+            console.error('Error fetching external IDs:', error);
+            return item;
+          }
+        }
+        return item;
+      })
+    );
+
+    const data = parse(resultsWithExternalIds, type as MediaType);
 
     response.status(200).json({
       type: 'Success',

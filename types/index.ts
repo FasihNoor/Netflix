@@ -39,6 +39,7 @@ export type Media = {
   media_type: MediaType;
   release_date?: string;
   first_air_date?: string;
+  imdb_id?: string;
 };
 
 export type ImageType = 'poster' | 'original';

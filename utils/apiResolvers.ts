@@ -15,7 +15,8 @@ export function parse(array: any[], type: MediaType): Media[] {
       poster: getImageUrl(element.poster_path, 'poster'),
       banner: getImageUrl(element.backdrop_path, 'original'),
       genre: getGenre(element.genre_ids, mediaType as MediaType),
-      media_type: mediaType
+      media_type: mediaType,
+      imdb_id: element.external_ids?.imdb_id || element.imdb_id
     };
 
     parsedResponse.push(resolved);
