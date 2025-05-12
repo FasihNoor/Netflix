@@ -2,6 +2,8 @@
 
 A Netflix Clone built with [Next.js](https://nextjs.org/), [Typescript](https://www.typescriptlang.org/), and [Sass](https://sass-lang.com/), powered by the [TMDB API](https://www.themoviedb.org/). Experience seamless streaming, interactive content browsing, and dynamic movie information—all in one place, just like the Netflix app we know and love! 
 
+Visit https://netflix-rouge-zeta.vercel.app/
+
 ## 🛠️ Tech Stack
 * Frontend: Next.js, TypeScript, Sass
 * Backend: TMDB API for movie data

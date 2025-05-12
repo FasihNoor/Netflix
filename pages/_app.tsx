@@ -8,7 +8,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Nextflix</title>
+        <title>Netflix</title>
         <meta name='description' content='Netflix clone, made using Next.js' />
         <link rel='icon' href='/favicon.ico' />
       </Head>

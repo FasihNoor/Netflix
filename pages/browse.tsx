@@ -38,7 +38,7 @@ export default function Browse(): React.ReactElement {
 
 const sections: Section[] = [
   {
-    heading: 'Popular on Nextflix',
+    heading: 'Popular on Netflix',
     endpoint: '/api/popular?type=tv'
   },
   {
@@ -46,7 +46,7 @@ const sections: Section[] = [
     endpoint: '/api/discover?type=movie&genre=27'
   },
   {
-    heading: 'Only on Nextflix',
+    heading: 'Only on Netflix',
     endpoint: '/api/discover?type=tv',
     defaultCard: false
   },
