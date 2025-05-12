@@ -12,17 +12,16 @@ interface SearchResult {
 }
 
 interface SearchProps {
-  initialQuery: string;
+  initialQuery?: string;
 }
 
-export default function Search({ initialQuery }: SearchProps) {
+export default function Search({ initialQuery = '' }: SearchProps) {
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<SearchResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  // Update query when initialQuery changes
   useEffect(() => {
     setQuery(initialQuery);
     search(initialQuery);
@@ -64,6 +63,16 @@ export default function Search({ initialQuery }: SearchProps) {
     setResults(null);
   };
 
+  const getImageUrl = (item: Media) => {
+    if (item.poster_path) {
+      return `https://image.tmdb.org/t/p/w500${item.poster_path}`;
+    }
+    if (item.poster) {
+      return item.poster;
+    }
+    return '/assets/placeholder-poster.jpg';
+  };
+
   return (
     <div className="w-full">
       {loading && (
@@ -90,11 +99,13 @@ export default function Search({ initialQuery }: SearchProps) {
               <div className="flex items-center p-3">
                 <div className="relative w-16 h-24 flex-shrink-0">
                   <Image
-                    src={item.poster_path || item.poster || '/placeholder.png'}
+                    src={getImageUrl(item)}
                     alt={item.title || item.name || ''}
                     width={64}
                     height={96}
                     className="object-cover rounded"
+                    priority={false}
+                    quality={75}
                   />
                 </div>
                 <div className="ml-4">
@@ -107,7 +118,7 @@ export default function Search({ initialQuery }: SearchProps) {
                   </p>
                   {(item.vote_average || item.rating) > 0 && (
                     <p className="text-sm text-gray-400">
-                      Rating: {Math.round(item.rating)}%
+                      Rating: {Math.round((item.vote_average || item.rating) * 10)}%
                     </p>
                   )}
                 </div>
